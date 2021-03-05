@@ -37,3 +37,7 @@ plt.title('Mass vs Color_score')
 
 #finding the correlation amoung the parameters
 print(dat.iloc[:,1:].corr())
+
+features = ['width','color_score']
+X = dat[features]
+y = dat.iloc[:,0]
