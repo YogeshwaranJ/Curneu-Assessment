@@ -41,3 +41,69 @@ print(dat.iloc[:,1:].corr())
 features = ['mass','height']
 X = dat[features]
 y = dat.iloc[:,0]
+
+#splitting of dataset
+from sklearn.model_selection import train_test_split
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.20)
+
+#standardize the training and test dataset
+
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+scaler.fit(X_train)
+
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
+
+
+
+#function to calculate euclidean distance
+def euclid_dist(X1,X2):
+    dist = np.sum((X1 - X2)**2)
+    return np.sqrt(dist)
+
+#function of knn predict
+
+def knn_predict(X_train, X_test, y_train, y_test, k):
+    
+    # Counter to help with label voting
+    from collections import Counter
+    
+    # Make predictions on the test data
+    # Need output of 1 prediction per test data point
+    y_hat_test = []
+
+    for test_point in X_test:
+        distances = []
+
+        for train_point in X_train:
+            distance = euclid_dist(test_point, train_point)
+            distances.append(distance)
+        
+        # Storing distances in a dataframe
+        df_dists = pd.DataFrame(data=distances, columns=['dist'], 
+                                index=y_train.index)
+        
+        # Sort distances and considering the k closest points
+        df_nn = df_dists.sort_values(by=['dist'], axis=0)[:k]
+
+        # Create counter object to track the labels of k closest neighbors
+        counter = Counter(y_train[df_nn.index])
+
+        # Get most common label of all the nearest neighbors
+        prediction = counter.most_common()[0][0]
+        
+        # Append prediction to output list
+        y_hat_test.append(prediction)
+        
+    return y_hat_test
+
+# predicting on test dataset
+y_hat_test = knn_predict(X_train, X_test, y_train, y_test, k=3)
+
+print(y_hat_test)
+    
+#calculating accuracy of the model built from scratch
+from sklearn.metrics import accuracy_score
+
+print('Accuracy:', accuracy_score(y_test,y_hat_test))
