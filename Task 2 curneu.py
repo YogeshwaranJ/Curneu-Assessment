@@ -8,9 +8,7 @@ Created on Sat Mar  6 18:31:20 2021
 #importing all the needed libraries
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
-from sklearn import metrics
-from scipy.stats import mode 
+import numpy as np 
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split 
 
@@ -129,7 +127,31 @@ def knn_predict(X_train, X_test, y_train, y_test, k):
     return y_hat_test
 
 
+
 # Make predictions on test dataset
 y_hat_test = knn_predict(X_train, X_test, y_train, y_test, k=20)
 
-    
+
+
+print(y_test)
+print(y_hat_test)
+
+from sklearn.metrics import accuracy_score
+print('Accuracy:', accuracy_score(y_test,y_hat_test))
+
+#finding the best suitable k value
+error = []
+for i in range(1, 40):
+    pred_i = knn_predict(X_train, X_test, y_train, y_test, k=i)
+    error.append(np.mean(pred_i != y_test))
+
+plt.figure(figsize=(12, 6))
+plt.plot(range(1, 40), error, color='red', linestyle='dashed', marker='o',
+         markerfacecolor='blue', markersize=10)
+plt.title('Error Rate K Value')
+plt.xlabel('K Value')
+plt.ylabel('Mean Error')
+
+#using the best value of k to train the model and finding accuracy
+y_hat_test1 = knn_predict(X_train, X_test, y_train, y_test, k=24)
+print('Accuracy:', accuracy_score(y_test,y_hat_test1))
