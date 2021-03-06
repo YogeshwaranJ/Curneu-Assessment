@@ -35,12 +35,19 @@ plt.xlabel('Mass')
 plt.ylabel('Color_score')
 plt.title('Mass vs Color_score')
 
+
+plt.scatter(dat['width'], dat['color_score'])
+plt.xlabel('Width')
+plt.ylabel('Color_score')
+plt.title('Width vs Color_score')
+
 #finding the correlation amoung the parameters
 print(dat.iloc[:,1:].corr())
 
-features = ['mass','height']
+features = ['width','color_score']
 X = dat[features]
 y = dat.iloc[:,0]
+
 
 #splitting of dataset
 from sklearn.model_selection import train_test_split
@@ -100,7 +107,7 @@ def knn_predict(X_train, X_test, y_train, y_test, k):
 
 # predicting on test dataset
 y_hat_test = knn_predict(X_train, X_test, y_train, y_test, k=3)
-
+print(y_test)
 print(y_hat_test)
     
 #calculating accuracy of the model built from scratch
