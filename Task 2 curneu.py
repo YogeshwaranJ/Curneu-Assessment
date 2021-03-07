@@ -140,7 +140,7 @@ plt.xlabel('K Value')
 plt.ylabel('Mean Error')
 
 #using the best value of k to train the model and finding accuracy
-y_hat_test1 = knn_predict(X_train, X_test, y_train, y_test, k=19)
+y_hat_test1 = knn_predict(X_train, X_test, y_train, y_test, k=20)
 
 
 
