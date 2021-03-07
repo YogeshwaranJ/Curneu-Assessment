@@ -112,5 +112,9 @@ print(y_hat_test)
     
 #calculating accuracy of the model built from scratch
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import r2_score
 
 print('Accuracy:', accuracy_score(y_test,y_hat_test))
+print('r2 score:', r2_score(y_test,y_hat_test))
+
+
