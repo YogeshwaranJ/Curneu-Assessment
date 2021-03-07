@@ -105,6 +105,19 @@ def knn_predict(X_train, X_test, y_train, y_test, k):
         
     return y_hat_test
 
+#finding the best suitable k value
+error = []
+for i in range(1, 40):
+    pred_i = knn_predict(X_train, X_test, y_train, y_test, k=i)
+    error.append(np.mean(pred_i != y_test))
+
+plt.figure(figsize=(12, 6))
+plt.plot(range(1, 40), error, color='red', linestyle='dashed', marker='o',
+         markerfacecolor='blue', markersize=10)
+plt.title('Error Rate K Value')
+plt.xlabel('K Value')
+plt.ylabel('Mean Error')
+
 # predicting on test dataset
 y_hat_test = knn_predict(X_train, X_test, y_train, y_test, k=3)
 print(y_test)
