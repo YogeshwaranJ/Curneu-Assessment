@@ -126,32 +126,31 @@ def knn_predict(X_train, X_test, y_train, y_test, k):
         
     return y_hat_test
 
-
-
-# Make predictions on test dataset
-y_hat_test = knn_predict(X_train, X_test, y_train, y_test, k=20)
-
-
-
-print(y_test)
-print(y_hat_test)
-
-from sklearn.metrics import accuracy_score
-print('Accuracy:', accuracy_score(y_test,y_hat_test))
-
 #finding the best suitable k value
-error = []
+error1 = []
 for i in range(1, 40):
     pred_i = knn_predict(X_train, X_test, y_train, y_test, k=i)
-    error.append(np.mean(pred_i != y_test))
+    error1.append(np.mean(pred_i != y_test))
 
 plt.figure(figsize=(12, 6))
-plt.plot(range(1, 40), error, color='red', linestyle='dashed', marker='o',
+plt.plot(range(1, 40), error1, color='red', linestyle='dashed', marker='o',
          markerfacecolor='blue', markersize=10)
 plt.title('Error Rate K Value')
 plt.xlabel('K Value')
 plt.ylabel('Mean Error')
 
 #using the best value of k to train the model and finding accuracy
-y_hat_test1 = knn_predict(X_train, X_test, y_train, y_test, k=24)
+y_hat_test1 = knn_predict(X_train, X_test, y_train, y_test, k=19)
+
+
+
+print(y_test)
+print(y_hat_test1)
+
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import r2_score
 print('Accuracy:', accuracy_score(y_test,y_hat_test1))
+print('r2 score:', r2_score(y_test,y_hat_test1))
+
+
+
